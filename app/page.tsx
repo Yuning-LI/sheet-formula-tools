@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Copy, Check, ArrowRight, Table, Database, Zap, ShieldCheck, Globe } from 'lucide-react';
+import { Copy, Check, ArrowRight, Table, Database, Zap, ShieldCheck, Globe, Trash2 } from 'lucide-react';
 
 export default function Home() {
   const [description, setDescription] = useState('');
@@ -23,7 +23,6 @@ export default function Home() {
         body: JSON.stringify({ description, mode }),
       });
       
-      // 处理非 JSON 响应（防止报错）
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
         throw new Error("API response was not JSON");
@@ -38,17 +37,8 @@ export default function Home() {
       }
       
     } catch (error) {
-      console.error("API Call Failed (Expected in Preview):", error);
-      // --- 模拟数据 (Mock) ---
-      // 这一步是为了让您在 Canvas 预览中也能看到效果
-      // 在本地运行时，如果 API 没通，您也会看到这个模拟结果，方便调试界面
-      setTimeout(() => {
-        if (mode === 'excel') {
-          setResult('=IF(A1>100, "High", "Low")');
-        } else {
-          setResult('=VLOOKUP(A2, Sheet2!A:B, 2, FALSE)');
-        }
-      }, 1000);
+      console.error("API Call Failed:", error);
+      setResult('Error: Connection failed. Please check your internet.');
     } finally {
       setLoading(false);
     }
@@ -59,6 +49,12 @@ export default function Home() {
     navigator.clipboard.writeText(result);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleClear = () => {
+    setDescription('');
+    setResult('');
+    setCopied(false);
   };
 
   return (
@@ -84,48 +80,70 @@ export default function Home() {
         
         {/* 标题区 */}
         <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider mb-6 border border-blue-100">
-            <Zap className="h-3 w-3" />
-            <span>Powered by DeepSeek AI</span>
-          </div>
           <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
             Turn your text into <br className="hidden md:block"/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Complex Formulas</span>
           </h1>
           <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-            Stop struggling with syntax. Just describe what you need in plain English (or Chinese), and get the formula instantly.
+            Stop struggling with syntax. Just describe what you need in <span className="font-medium text-slate-700">plain English</span>, and get the formula instantly.
           </p>
         </div>
 
         {/* 核心生成器卡片 */}
         <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden transform transition-all hover:shadow-2xl">
           
-          {/* 模式切换 */}
-          <div className="flex border-b border-slate-100 bg-slate-50/50">
+          {/* 模式切换 (高对比度设计) */}
+          <div className="flex bg-slate-100 p-1">
             <button 
               onClick={() => setMode('excel')}
-              className={`flex-1 py-4 text-center font-bold text-sm flex items-center justify-center gap-2 transition-all ${mode === 'excel' ? 'bg-white text-green-700 border-b-2 border-green-600 shadow-sm' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'}`}
+              className={`flex-1 py-3 text-center font-bold text-sm flex items-center justify-center gap-2 transition-all rounded-lg ${
+                mode === 'excel' 
+                  ? 'bg-blue-600 text-white shadow-md transform scale-[1.02]' 
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200'
+              }`}
             >
-              <Table className="h-4 w-4" /> Excel
+              <Table className={`h-4 w-4 ${mode === 'excel' ? 'text-white' : 'text-slate-500'}`} /> 
+              Excel
             </button>
             <button 
               onClick={() => setMode('google-sheets')}
-              className={`flex-1 py-4 text-center font-bold text-sm flex items-center justify-center gap-2 transition-all ${mode === 'google-sheets' ? 'bg-white text-green-700 border-b-2 border-green-600 shadow-sm' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'}`}
+              className={`flex-1 py-3 text-center font-bold text-sm flex items-center justify-center gap-2 transition-all rounded-lg ${
+                mode === 'google-sheets' 
+                  ? 'bg-green-600 text-white shadow-md transform scale-[1.02]' 
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200'
+              }`}
             >
-              <Database className="h-4 w-4" /> Google Sheets
+              <Database className={`h-4 w-4 ${mode === 'google-sheets' ? 'text-white' : 'text-slate-500'}`} /> 
+              Google Sheets
             </button>
           </div>
 
           <div className="p-6 md:p-8">
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-slate-700 mb-2 flex justify-between">
-                <span>Describe your problem</span>
-                <span className="text-xs font-normal text-slate-400">English / 中文 supported</span>
-              </label>
+              {/* Label 区域：包含清空按钮逻辑 */}
+              <div className="flex justify-between items-end mb-2">
+                <label className="block text-sm font-semibold text-slate-700">
+                  Describe your problem
+                </label>
+                
+                {description ? (
+                  <button 
+                    onClick={handleClear}
+                    className="text-xs text-slate-500 hover:text-red-600 flex items-center gap-1 transition-colors px-2 py-1 rounded-md hover:bg-red-50"
+                    title="Clear input"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" /> Clear
+                  </button>
+                ) : (
+                  // 回滚点：这里的提示语改回了 "Any language supported"
+                  <span className="text-xs font-normal text-slate-400">Any language supported</span>
+                )}
+              </div>
+
               <textarea
                 rows={3}
-                className="w-full rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-slate-800 p-4 border bg-slate-50 resize-none text-base transition-all focus:bg-white"
-                placeholder='e.g., "If column A is greater than 100, show High, otherwise Low" 或者 "如果 A 列的日期是周末，计算 B 列的总和"'
+                className="w-full rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-slate-800 p-4 border bg-slate-50 resize-none text-base transition-all focus:bg-white placeholder:text-slate-400"
+                placeholder='e.g., "Sum column A if column B contains the word Sales" or "Calculate the number of days between today and the date in cell A1"'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
@@ -199,8 +217,8 @@ export default function Home() {
             <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Globe className="h-6 w-6 text-purple-600" />
             </div>
-            <h3 className="font-bold text-slate-900 mb-2">Multi-Language</h3>
-            <p className="text-sm">Describe in English, Chinese, or Spanish. AI understands it all.</p>
+            <h3 className="font-bold text-slate-900 mb-2">Smart Interpretation</h3>
+            <p className="text-sm">Our AI understands natural language context, even if your description is vague.</p>
           </div>
         </div>
       </main>

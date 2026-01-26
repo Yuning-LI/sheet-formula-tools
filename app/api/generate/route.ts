@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-// 初始化客户端 (连接 DeepSeek)
 const client = new OpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY,
   baseURL: process.env.DEEPSEEK_BASE_URL,
@@ -18,7 +17,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // 系统提示词：告诉 AI 它是 Excel 专家
     const systemPrompt = `You are an expert ${mode === 'google-sheets' ? 'Google Sheets' : 'Excel'} formula generator.
     Your task is to translate natural language user requests into complex, efficient formulas.
     
@@ -34,8 +32,8 @@ export async function POST(req: Request) {
         { role: "system", content: systemPrompt },
         { role: "user", content: description }
       ],
-      model: "deepseek-chat", // DeepSeek V3 模型
-      temperature: 0.1, // 低温度保证准确性
+      model: "deepseek-chat", 
+      temperature: 0.1, 
     });
 
     const formula = completion.choices[0].message.content;
