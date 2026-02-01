@@ -8,7 +8,10 @@ const client = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    const { description, mode } = await req.json();
+    const body = await req.json();
+    const description =
+      typeof body?.description === 'string' ? body.description.trim() : '';
+    const mode = body?.mode === 'google-sheets' ? 'google-sheets' : 'excel';
 
     if (!description) {
       return NextResponse.json(
@@ -18,14 +21,15 @@ export async function POST(req: Request) {
     }
 
     const systemPrompt = `You are an expert ${mode === 'google-sheets' ? 'Google Sheets' : 'Excel'} formula generator.
-    Your task is to translate natural language user requests into complex, efficient formulas.
-    
-    Rules:
-    1. Return ONLY the formula. Do not explain. Do not say "Here is the formula".
-    2. If the request is unclear, try to generate the most likely formula.
-    3. If the request is not related to spreadsheets, return "Error: Please ask for a spreadsheet formula."
-    4. Start the formula with =.
-    `;
+Your task is to translate natural language user requests into accurate, efficient formulas.
+
+Rules:
+1. Return ONLY the formula or the exact error code. Do not explain.
+2. If the request is not a spreadsheet formula request, return !ERROR: INVALID_INPUT.
+3. If the request is unclear but still a formula request, generate the most likely formula.
+4. Start formulas with =.
+5. Prefer standard, older Excel-compatible functions unless the user explicitly asks for newer functions.
+`;
 
     const completion = await client.chat.completions.create({
       messages: [
