@@ -41,8 +41,8 @@ export default function GeneratorForm({
         </div>
         <textarea
           rows={3}
-          className="w-full rounded-xl border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-slate-800 p-4 border bg-slate-50 resize-none text-base transition-all focus:bg-white placeholder:text-slate-400"
-          placeholder='e.g., "Sum column A if column B contains the word Sales" or "Calculate the number of days between today and the date in cell A1"'
+          className="w-full rounded-xl border-slate-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-slate-800 p-3 border bg-slate-50 resize-none text-base transition-all focus:bg-white placeholder:text-slate-400"
+          placeholder='e.g., "Sum column A if B is Sales"'
           value={description}
           onChange={(event) => onDescriptionChange(event.target.value)}
         ></textarea>
@@ -53,7 +53,7 @@ export default function GeneratorForm({
         className={`w-full flex items-center justify-center py-4 px-6 rounded-xl text-base font-bold text-white transition-all ${
           loading || !description.trim()
             ? 'bg-slate-300 cursor-not-allowed'
-            : 'bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0'
+            : 'bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0'
         }`}
       >
         {loading ? (

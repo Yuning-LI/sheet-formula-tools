@@ -15,7 +15,7 @@ export default function ModeSwitcher({ mode, onModeChange }: ModeSwitcherProps) 
         onClick={() => onModeChange('excel')}
         className={`flex-1 py-3 text-center font-bold text-sm flex items-center justify-center gap-2 transition-all rounded-lg ${
           mode === 'excel'
-            ? 'bg-blue-600 text-white shadow-md transform scale-[1.02]'
+            ? 'bg-green-600 text-white shadow-md transform scale-[1.02]'
             : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200'
         }`}
       >
