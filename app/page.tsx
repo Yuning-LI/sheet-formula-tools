@@ -62,7 +62,9 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-green-600 w-9 h-9 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold italic leading-none">fx</span>
+              <span className="text-white font-serif font-bold italic text-lg leading-none pl-0.5">
+                fx
+              </span>
             </div>
             <span className="font-bold text-xl tracking-tight">
               Excel Formula <span className="text-green-600">Generator</span>
