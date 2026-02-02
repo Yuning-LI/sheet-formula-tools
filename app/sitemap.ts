@@ -1,13 +1,11 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.excelformulagenerator.net'; // 确保这里是你的正式域名
-
   return [
     {
-      url: baseUrl,
+      url: "https://www.excelformulagenerator.net",
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "monthly",
       priority: 1,
     },
   ];

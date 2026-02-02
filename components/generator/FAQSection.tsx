@@ -1,9 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
+const FAQItem = ({
+  question,
+  answer,
+}: {
+  question: string;
+  answer: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="border-b border-slate-200 last:border-0">
@@ -22,7 +28,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
       </button>
       <div
         className={`overflow-hidden transition-all duration-300 ${
-          isOpen ? 'max-h-40 opacity-100 pb-4' : 'max-h-0 opacity-0'
+          isOpen ? "max-h-40 opacity-100 pb-4" : "max-h-0 opacity-0"
         }`}
       >
         <p className="text-slate-600 text-sm leading-relaxed">{answer}</p>
@@ -33,7 +39,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 
 export default function FAQSection() {
   return (
-    <div className="mt-12 md:mt-20 max-w-2xl mx-auto">
+    <section className="mt-12 md:mt-20 max-w-2xl mx-auto">
       <div className="text-center mb-8 md:mb-10">
         <h2 className="text-2xl font-bold text-slate-900">
           Frequently Asked Questions
@@ -60,6 +66,6 @@ export default function FAQSection() {
           answer="Yes. You can toggle between 'Excel' and 'Google Sheets' modes. While many formulas are similar, our AI handles specific differences tailored to each platform."
         />
       </div>
-    </div>
+    </section>
   );
 }

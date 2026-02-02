@@ -1,41 +1,34 @@
 import type { Metadata, Viewport } from "next";
-import { GoogleAnalytics } from '@next/third-parties/google';
 import "./globals.css";
 
 export const viewport: Viewport = {
   width: "device-width",
-  initialScale: 1.0,
-  maximumScale: 1.0,
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.excelformulagenerator.net'),
   title: "Free AI Excel Formula Generator & Google Sheets Helper",
-  description: "Generate complex Excel and Google Sheets formulas instantly with AI. Free, no sign-up required. Simply describe your problem and get the formula.",
-  keywords: ["excel formula generator", "google sheets formula AI", "spreadsheet AI", "excel help", "AI excel tools"],
-  alternates: {
-    canonical: 'https://www.excelformulagenerator.net',
-  },
+  description:
+    "Turn text into Excel formulas instantly with our free AI tool. Supports Google Sheets and complex logic.",
+  metadataBase: new URL("https://www.excelformulagenerator.net"),
   verification: {
-    google: '-4U9BPQzZFi2agK6InT5xiD6N4gjALhz43Z9MFL_eiM',
-  },
-  icons: {
-    icon: '/favicon.ico',
+    google: "-4U9BPQzZFi2agK6InT5xiD6N4gjALhz43Z9MFL_eiM",
   },
 };
 
 const softwareApplicationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: 'Excel Formula Generator',
-  applicationCategory: 'BusinessApplication',
-  operatingSystem: 'Web',
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Excel Formula Generator",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
   offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
   },
-  url: 'https://www.excelformulagenerator.net',
+  url: "https://www.excelformulagenerator.net",
 };
 
 export default function RootLayout({
@@ -43,11 +36,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const enableAnalytics = process.env.NODE_ENV === 'production';
-
   return (
     <html lang="en">
       <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -55,10 +50,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-slate-50 antialiased font-sans">
-        {children}
-      </body>
-      {enableAnalytics && <GoogleAnalytics gaId="G-80WYD9170R" />}
+      <body>{children}</body>
     </html>
   );
 }
