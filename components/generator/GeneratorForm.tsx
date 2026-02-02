@@ -20,9 +20,12 @@ export default function GeneratorForm({
   return (
     <div className="p-5 md:p-8">
       <div className="mb-4">
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          Describe your problem
-        </label>
+        <div className="flex items-center justify-between text-sm font-semibold text-slate-700 mb-2">
+          <span>Describe your problem</span>
+          <span className="text-xs font-medium text-slate-400">
+            Any language supported
+          </span>
+        </div>
         <textarea
           rows={3}
           className="w-full rounded-xl border-slate-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-slate-800 p-3 border bg-slate-50 resize-none text-base transition-all focus:bg-white placeholder:text-slate-400"

@@ -20,7 +20,10 @@ export default function ResultDisplay({
   };
 
   return (
-    <div className="border-t border-slate-200 p-5 md:p-8 bg-slate-50">
+    <div
+      id="result-section"
+      className="border-t border-slate-200 p-5 md:p-8 bg-slate-50"
+    >
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-semibold text-slate-700">Result</span>
         <button

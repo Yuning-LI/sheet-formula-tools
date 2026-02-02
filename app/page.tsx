@@ -31,6 +31,9 @@ export default function Home() {
         setResult(data.error || "Error generating formula");
       } else {
         setResult(data.formula);
+        document
+          .getElementById("result-section")
+          ?.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     } catch {
       setResult("Error: Connection failed.");
@@ -63,12 +66,12 @@ export default function Home() {
       </nav>
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 md:py-16">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+        <div className="text-center mb-6">
+          <h1 className="text-xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">
             Free <span className="text-green-600">AI Excel Formula Generator</span>{" "}
             & Google Sheets Helper
           </h1>
-          <p className="text-base md:text-lg text-slate-500 max-w-2xl mx-auto">
+          <p className="text-sm md:text-lg text-slate-500 max-w-2xl mx-auto mb-6">
             Turn text into formulas instantly. Stop struggling with syntax—just
             ask our AI in your native language.
           </p>
